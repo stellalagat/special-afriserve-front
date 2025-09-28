@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Africonnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Variables */
+        :root {
+            --primary: #FF6B00;
+            --primary-dark: #E55A00;
+            --secondary: #00A859;
+            --dark: #2C3E50;
+            --light: #F5F7FA;
+            --accent: #FFD166;
+            --text: #2C3E50;
+            --bg: #F5F7FA;
+            --card-bg: #FFFFFF;
+            --sidebar-bg: #2C3E50;
+            --sidebar-text: #ECF0F1;
+            --sidebar-hover: #34495E;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --radius: 12px;
+            --glow: 0 0 20px rgba(255, 107, 0, 0.3);
+        }
+
+        /* Theme Variations */
+        .theme-blue {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary: #06B6D4;
+            --accent: #60A5FA;
+            --sidebar-bg: #1E3A8A;
+            --glow: 0 0 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .theme-purple {
+            --primary: #7C3AED;
+            --primary-dark: #6D28D9;
+            --secondary: #EC4899;
+            --accent: #A78BFA;
+            --sidebar-bg: #5B21B6;
+            --glow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .theme-dark {
+            --primary: #F59E0B;
+            --primary-dark: #D97706;
+            --secondary: #10B981;
+            --dark: #1F2937;
+            --light: #374151;
+            --text: #F9FAFB;
+            --bg: #111827;
+            --card-bg: #1F2937;
+            --sidebar-bg: #111827;
+            --sidebar-text: #F9FAFB;
+            --sidebar-hover: #374151;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --glow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .theme-green {
+            --primary: #059669;
+            --primary-dark: #047857;
+            --secondary: #65A30D;
+            --accent: #34D399;
+            --sidebar-bg: #065F46;
+            --glow: 0 0 20px rgba(5, 150, 105, 0.3);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        body {
+            color: var(--text);
+            background-color: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            transition: var(--transition);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sidebar-header .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed .sidebar-header h2 {
+            display: none;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: var(--sidebar-text);
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+            position: relative;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: var(--sidebar-hover);
+            border-left-color: var(--primary);
+        }
+
+        .menu-item i {
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .menu-item span {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed .menu-item span {
+            display: none;
+        }
+
+        .menu-section {
+            padding: 20px 25px 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+
+        .sidebar.collapsed .menu-section {
+            display: none;
+        }
+
+        .toggle-sidebar {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--sidebar-text);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--primary);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: var(--transition);
+            padding: 0;
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 80px;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background-color: var(--card-bg);
+            padding: 20px 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg);
+            border-radius: var(--radius);
+            padding: 10px 15px;
+            width: 400px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: none;
+            outline: none;
+            color: var(--text);
+            font-size: 1rem;
+            width: 100%;
+            margin-left: 10px;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .notification-bell:hover {
+            background-color: var(--bg);
+        }
+
+        .notification-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .user-id {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            margin-top: 2px;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(50px, -50px);
+        }
+
+        .welcome-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .welcome-banner p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            background-color: var(--secondary);
+            color: white;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .stat-change.negative {
+            background-color: #E74C3C;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        /* Recent Activity */
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .action-card {
+            background-color: var(--bg);
+            padding: 25px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .action-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .action-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .action-desc {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .data-table th {
+            font-weight: 600;
+            color: var(--dark);
+            background-color: var(--bg);
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .status-pending {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+        }
+
+        .status-completed {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+
+        /* Charts Container */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, var(--bg), var(--card-bg));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+
+        /* Service Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .service-image {
+            height: 160px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .service-content {
+            padding: 20px;
+        }
+
+        .service-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .service-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .service-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .service-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .service-rating i {
+            color: #FFD166;
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(0,0,0,0.1);
+            background-color: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            flex-direction: column;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 107, 0, 0.3);
+            border-left: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar .menu-item span,
+            .sidebar .menu-section,
+            .sidebar .sidebar-header h2 {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .search-bar {
+                width: 300px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .top-nav {
+                padding: 15px 20px;
+            }
+            
+            .search-bar {
+                display: none;
+            }
+            
+            .user-info {
+                display: none;
+            }
+            
+            .dashboard-content {
+                padding: 20px;
+            }
+            
+            .welcome-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-sections-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        /* Utility Classes */
+        .text-primary { color: var(--primary); }
+        .text-secondary { color: var(--secondary); }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-20 { margin-top: 20px; }
+        .text-center { text-align: center; }
+        .hidden { display: none; }
+
+        /* Notification System */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--radius);
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            animation: slideIn 0.3s ease;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.success {
+            background-color: var(--secondary);
+        }
+
+        .notification.error {
+            background-color: #E74C3C;
+        }
+
+        .notification.info {
+            background-color: var(--primary);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Theme Options */
+        .theme-options {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 10px;
+            display: none;
+            z-index: 1000;
+            width: 150px;
+        }
+        
+        .theme-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            display: inline-block;
+            border: 2px solid transparent;
+        }
+        
+        .theme-option.active {
+            border-color: var(--text);
+        }
+        
+        .theme-default { background: linear-gradient(135deg, #FF6B00, #00A859); }
+        .theme-blue-btn { background: linear-gradient(135deg, #2563EB, #06B6D4); }
+        .theme-purple-btn { background: linear-gradient(135deg, #7C3AED, #EC4899); }
+        .theme-dark-btn { background: linear-gradient(135deg, #F59E0B, #10B981); }
+        .theme-green-btn { background: linear-gradient(135deg, #059669, #65A30D); }
+        
+        .theme-selector {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h2>Africonnect Dashboard</h2>
+            </div>
+
+            <nav class="sidebar-menu">
+                <div class="menu-section">Main</div>
+                <a href="#dashboard" class="menu-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#services" class="menu-item" data-section="services">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span>My Services</span>
+                </a>
+                <a href="#bookings" class="menu-item" data-section="bookings">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="#messages" class="menu-item" data-section="messages">
+                    <i class="fas fa-comments"></i>
+                    <span>Messages</span>
+                    <span class="notification-count">3</span>
+                </a>
+
+                <div class="menu-section">Business</div>
+                <a href="#analytics" class="menu-item" data-section="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#customers" class="menu-item" data-section="customers">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="#reviews" class="menu-item" data-section="reviews">
+                    <i class="fas fa-star"></i>
+                    <span>Reviews</span>
+                </a>
+
+                <div class="menu-section">Account</div>
+                <a href="#profile" class="menu-item" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#settings" class="menu-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#help" class="menu-item" data-section="help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </a>
+            </nav>
+
+            <button class="toggle-sidebar" id="toggleSidebar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search dashboard...">
+                </div>
+
+                <div class="user-actions">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">5</span>
+                    </div>
+
+                    <div class="theme-selector">
+                        <button class="theme-btn" id="themeBtn">
+                            <i class="fas fa-palette"></i>
+                        </button>
+                        <div class="theme-options" id="themeOptions">
+                            <div class="theme-option theme-default active" data-theme="default"></div>
+                            <div class="theme-option theme-blue-btn" data-theme="blue"></div>
+                            <div class="theme-option theme-purple-btn" data-theme="purple"></div>
+                            <div class="theme-option theme-dark-btn" data-theme="dark"></div>
+                            <div class="theme-option theme-green-btn" data-theme="green"></div>
+                        </div>
+                    </div>
+
+                    <div class="user-profile" id="userProfile">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <div class="user-info">
+                            <div class="user-name" id="userName">Loading...</div>
+                            <div class="user-role" id="userRole">User</div>
+                            <div class="user-id" id="userId">ID: Loading...</div>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <h1>Welcome back, <span id="welcomeName">User</span>! 👋</h1>
+                    <p id="welcomeMessage">Here's what's happening with your account today.</p>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading" id="loadingSection">
+                    <div class="spinner"></div>
+                    <p>Loading your dashboard...</p>
+                </div>
+
+                <!-- Role-specific content will be loaded here -->
+                <div id="roleContent" style="display: none;"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- User Profile Dropdown -->
+    <div class="user-dropdown" id="userDropdown" style="display: none; position: absolute; top: 80px; right: 20px; background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); z-index: 1000; width: 200px;">
+        <div style="padding: 20px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+            <div style="font-weight: 600;" id="dropdownUserName">User Name</div>
+            <div style="font-size: 0.8rem; opacity: 0.7;" id="dropdownUserRole">Role</div>
+            <div style="font-size: 0.7rem; opacity: 0.6; margin-top: 2px;" id="dropdownUserId">ID: Loading...</div>
+        </div>
+        <div style="padding: 10px 0;">
+            <a href="#profile" style="display: flex; align-items: center; gap: 10px; padding: 10px 20px; text-decoration: none; color: var(--text); transition: var(--transition);">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+            </a>
+            <a href="#settings" style="display: flex; align-items: center; gap: 10px; padding: 10px 20px; text-decoration: none; color: var(--text); transition: var(--transition);">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#help" style="display: flex; align-items: center; gap: 10px; padding: 10px 20px; text-decoration: none; color: var(--text); transition: var(--transition);">
+                <i class="fas fa-question-circle"></i>
+                <span>Help & Support</span>
+            </a>
+        </div>
+        <div style="padding: 10px 20px; border-top: 1px solid rgba(0,0,0,0.1);">
+            <button id="logoutBtn" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: var(--radius); width: 100%; cursor: pointer; transition: var(--transition);">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Service Booking Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Book Service</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label class="form-label" for="serviceName">Service</label>
+                    <input type="text" class="form-control" id="serviceName" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="bookingDate">Date</label>
+                    <input type="date" class="form-control" id="bookingDate" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="bookingTime">Time</label>
+                    <input type="time" class="form-control" id="bookingTime" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="specialRequests">Special Requests</label>
+                    <textarea class="form-control" id="specialRequests" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:3000/api';
+        
+        // State Management
+        let currentUser = null;
+        let authToken = localStorage.getItem('authToken');
+        let selectedService = null;
+        let dashboardData = null;
+
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const toggleSidebarBtn = document.getElementById('toggleSidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const themeBtn = document.getElementById('themeBtn');
+        const themeOptions = document.getElementById('themeOptions');
+        const userProfile = document.getElementById('userProfile');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const notificationContainer = document.getElementById('notificationContainer');
+        const roleContent = document.getElementById('roleContent');
+        const loadingSection = document.getElementById('loadingSection');
+        const bookingModal = document.getElementById('bookingModal');
+        const bookingForm = document.getElementById('bookingForm');
+        const serviceNameInput = document.getElementById('serviceName');
+        const closeModal = document.querySelector('.close-modal');
+
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+            setupEventListeners();
+        });
+
+        // Initialize Dashboard Functionality
+        async function initializeDashboard() {
+            // Check authentication
+            if (!authToken) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                // Load user data and dashboard data
+                await Promise.all([
+                    loadUserData(),
+                    loadDashboardData()
+                ]);
+                
+                // Initialize theme
+                const savedTheme = localStorage.getItem('theme') || currentUser?.themePreference || 'default';
+                document.body.className = `theme-${savedTheme}`;
+                updateActiveThemeButton(savedTheme);
+
+                // Update UI
+                updateUserInterface();
+                loadRoleSpecificContent();
+                
+                // Hide loading, show content
+                loadingSection.style.display = 'none';
+                roleContent.style.display = 'block';
+
+            } catch (error) {
+                console.error('Dashboard initialization error:', error);
+                showNotification('Error loading dashboard', 'error');
+                // Redirect to login if unauthorized
+                if (error.message.includes('401') || error.message.includes('403')) {
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Sidebar toggle
+            toggleSidebarBtn.addEventListener('click', toggleSidebar);
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+            // Theme selector
+            themeBtn.addEventListener('click', () => {
+                themeOptions.style.display = themeOptions.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    changeTheme(option.dataset.theme);
+                });
+            });
+
+            // User profile dropdown
+            userProfile.addEventListener('click', toggleUserDropdown);
+
+            // Logout functionality
+            logoutBtn.addEventListener('click', handleLogout);
+
+            // Menu navigation
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.dataset.section;
+                    navigateToSection(section);
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userProfile.contains(e.target) && !userDropdown.contains(e.target)) {
+                    userDropdown.style.display = 'none';
+                }
+                if (!themeBtn.contains(e.target) && !themeOptions.contains(e.target)) {
+                    themeOptions.style.display = 'none';
+                }
+            });
+
+            // Modal events
+            closeModal.addEventListener('click', () => {
+                bookingModal.style.display = 'none';
+            });
+
+            bookingForm.addEventListener('submit', handleBookingSubmit);
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === bookingModal) {
+                    bookingModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Toggle Sidebar
+        function toggleSidebar() {
+            sidebar.classList.toggle('collapsed');
+            const icon = toggleSidebarBtn.querySelector('i');
+            icon.className = sidebar.classList.contains('collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+        }
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('mobile-open');
+        }
+
+        // Change Theme
+        function changeTheme(theme) {
+            document.body.className = `theme-${theme}`;
+            localStorage.setItem('theme', theme);
+            updateActiveThemeButton(theme);
+            themeOptions.style.display = 'none';
+            
+            // Update theme on server
+            updateUserTheme(theme);
+        }
+
+        function updateActiveThemeButton(theme) {
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.theme === theme) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        // Toggle User Dropdown
+        function toggleUserDropdown() {
+            userDropdown.style.display = userDropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Load User Data from Backend
+        async function loadUserData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser = data.user;
+                    return data.user;
+                } else {
+                    throw new Error(data.message || 'Failed to load user data');
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                throw error;
+            }
+        }
+
+        // Load Dashboard Data from Backend
+        async function loadDashboardData() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/dashboard`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    dashboardData = data.dashboardData;
+                    return data.dashboardData;
+                } else {
+                    throw new Error(data.message || 'Failed to load dashboard data');
+                }
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                // Use fallback data if API fails
+                dashboardData = getFallbackDashboardData();
+                return dashboardData;
+            }
+        }
+
+        // Fallback data in case API is unavailable
+        function getFallbackDashboardData() {
+            return {
+                notifications: 3,
+                recentActivity: [
+                    {
+                        type: 'booking',
+                        title: 'New booking received',
+                        description: 'Service request for tomorrow',
+                        time: '2 hours ago'
+                    },
+                    {
+                        type: 'review',
+                        title: 'New review received',
+                        description: '5-star rating from customer',
+                        time: '5 hours ago'
+                    }
+                ],
+                quickStats: {
+                    totalBookings: 12,
+                    completedServices: 8,
+                    pendingRequests: 3,
+                    revenue: 2847
+                }
+            };
+        }
+
+        // Update User Interface with Real Data
+        function updateUserInterface() {
+            if (currentUser) {
+                // Update welcome message
+                document.getElementById('welcomeName').textContent = currentUser.fullName;
+                document.getElementById('userName').textContent = currentUser.fullName;
+                document.getElementById('userRole').textContent = currentUser.role;
+                document.getElementById('userId').textContent = `ID: ${currentUser.uniqueId || 'N/A'}`;
+                document.getElementById('dropdownUserName').textContent = currentUser.fullName;
+                document.getElementById('dropdownUserRole').textContent = currentUser.role;
+                document.getElementById('dropdownUserId').textContent = `ID: ${currentUser.uniqueId || 'N/A'}`;
+                
+                // Update user avatar
+                const avatar = document.getElementById('userAvatar');
+                avatar.textContent = currentUser.fullName.charAt(0).toUpperCase();
+                
+                // Update welcome message based on role
+                updateWelcomeMessage(currentUser.role);
+            }
+        }
+
+        // Update Welcome Message Based on Role
+        function updateWelcomeMessage(role) {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const stats = dashboardData?.quickStats || {};
+            
+            switch(role) {
+                case 'BusinessOwner':
+                    welcomeMessage.innerHTML = `Manage your business efficiently. You have <strong>${stats.pendingRequests || 3} new bookings</strong> and <strong>${dashboardData?.notifications || 5} notifications</strong> waiting.`;
+                    break;
+                case 'ServiceProvider':
+                    welcomeMessage.innerHTML = `Track your service appointments. You have <strong>${stats.pendingRequests || 2} upcoming services</strong> today.`;
+                    break;
+                case 'Customer':
+                    welcomeMessage.innerHTML = `Discover and book services. You have <strong>${stats.totalBookings || 1} upcoming appointment</strong>.`;
+                    break;
+                case 'Wholesaler':
+                    welcomeMessage.innerHTML = `Monitor your supply chain. <strong>${stats.pendingRequests || 3} new orders</strong> received.`;
+                    break;
+                default:
+                    welcomeMessage.innerHTML = 'Here\'s what\'s happening with your account today.';
+            }
+        }
+
+        // Load Role-Specific Content
+        function loadRoleSpecificContent() {
+            if (!currentUser) return;
+            
+            switch(currentUser.role) {
+                case 'Customer':
+                    loadCustomerDashboard();
+                    break;
+                case 'ServiceProvider':
+                    loadServiceProviderDashboard();
+                    break;
+                case 'BusinessOwner':
+                    loadBusinessOwnerDashboard();
+                    break;
+                case 'Wholesaler':
+                    loadWholesalerDashboard();
+                    break;
+                default:
+                    loadDefaultDashboard();
+            }
+        }
+
+        // Customer Dashboard
+        function loadCustomerDashboard() {
+            const stats = dashboardData?.quickStats || {};
+            
+            roleContent.innerHTML = `
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">${stats.totalBookings || 5}</div>
+                            <div class="stat-label">Total Bookings</div>
+                            <div class="stat-change">+2 this month</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">R${stats.revenue || 425}</div>
+                            <div class="stat-label">Total Spending</div>
+                            <div class="stat-change">+R75 this month</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">${stats.completedServices || 3}</div>
+                            <div class="stat-label">Services Used</div>
+                            <div class="stat-change">+1 new service</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">4.7</div>
+                            <div class="stat-label">Avg. Rating</div>
+                            <div class="stat-change">Based on 8 reviews</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Available Services -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Available Services</h3>
+                        <a href="#" style="color: var(--primary); text-decoration: none;">View All</a>
+                    </div>
+                    <div class="section-content">
+                        <div class="services-grid" id="servicesGrid">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                <p>Loading services...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Recent Bookings</h3>
+                        <a href="#" style="color: var(--primary); text-decoration: none;">View All Bookings</a>
+                    </div>
+                    <div class="section-content">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading bookings...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Load services and bookings data
+            loadCustomerServices();
+            loadCustomerBookings();
+        }
+
+        // Service Provider Dashboard
+        function loadServiceProviderDashboard() {
+            const stats = dashboardData?.quickStats || {};
+            
+            roleContent.innerHTML = `
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">${stats.totalBookings || 24}</div>
+                            <div class="stat-label">Total Bookings</div>
+                            <div class="stat-change">+12% this month</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">Average Rating</div>
+                            <div class="stat-change">From 47 reviews</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">R${stats.revenue || 2847}</div>
+                            <div class="stat-label">Revenue</div>
+                            <div class="stat-change">+18% this month</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Customers</div>
+                            <div class="stat-change">+8 new this week</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Recent Activity</h3>
+                        <a href="#" style="color: var(--primary); text-decoration: none;">View All</a>
+                    </div>
+                    <div class="section-content">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading activity...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="quick-actions">
+                            <div class="action-card" data-action="add-service">
+                                <div class="action-icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </div>
+                                <div class="action-title">Add Service</div>
+                                <div class="action-desc">Create new service offering</div>
+                            </div>
+                            <div class="action-card" data-action="schedule">
+                                <div class="action-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="action-title">Set Availability</div>
+                                <div class="action-desc">Update your schedule</div>
+                            </div>
+                            <div class="action-card" data-action="promote">
+                                <div class="action-icon">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <div class="action-title">Promote</div>
+                                <div class="action-desc">Boost your visibility</div>
+                            </div>
+                            <div class="action-card" data-action="support">
+                                <div class="action-icon">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <div class="action-title">Get Help</div>
+                                <div class="action-desc">Contact support</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Load provider-specific data
+            loadProviderActivity();
+            setupQuickActions();
+        }
+
+        // Business Owner Dashboard
+        function loadBusinessOwnerDashboard() {
+            const stats = dashboardData?.quickStats || {};
+            
+            roleContent.innerHTML = `
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Service Providers</div>
+                            <div class="stat-change">+2 this quarter</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Services Offered</div>
+                            <div class="stat-change">+3 new services</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">R${stats.revenue || 12500}</div>
+                            <div class="stat-label">Total Revenue</div>
+                            <div class="stat-change">+22% this quarter</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">342</div>
+                            <div class="stat-label">Active Customers</div>
+                            <div class="stat-change">+45 this month</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Overview -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Business Overview</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading business data...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Load business data
+            loadBusinessData();
+        }
+
+        // Wholesaler Dashboard
+        function loadWholesalerDashboard() {
+            const stats = dashboardData?.quickStats || {};
+            
+            roleContent.innerHTML = `
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">${stats.totalBookings || 47}</div>
+                            <div class="stat-label">Total Orders</div>
+                            <div class="stat-change">+8 this month</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">R${stats.revenue || 18750}</div>
+                            <div class="stat-label">Revenue</div>
+                            <div class="stat-change">+15% this quarter</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">8</div>
+                            <div class="stat-label">Suppliers</div>
+                            <div class="stat-change">+2 new partners</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">23</div>
+                            <div class="stat-label">Products</div>
+                            <div class="stat-change">+5 new items</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Recent Orders</h3>
+                        <a href="#" style="color: var(--primary); text-decoration: none;">View All Orders</a>
+                    </div>
+                    <div class="section-content">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading orders...</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Load wholesaler data
+            loadWholesalerOrders();
+        }
+
+        // Default Dashboard (fallback)
+        function loadDefaultDashboard() {
+            roleContent.innerHTML = `
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Welcome to Africonnect</h3>
+                    </div>
+                    <div class="section-content text-center">
+                        <p>Please complete your profile setup to access all features.</p>
+                        <button class="btn btn-primary" onclick="window.location.href='role-selection.html'">
+                            <i class="fas fa-user-cog"></i> Complete Profile
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load Customer Services from Backend
+        async function loadCustomerServices() {
+            try {
+                // This would be replaced with actual API call
+                // For now, using simulated data that matches backend structure
+                const services = await simulateAPICall('services');
+                
+                const servicesGrid = document.getElementById('servicesGrid');
+                servicesGrid.innerHTML = '';
+                
+                services.forEach(service => {
+                    const serviceCard = document.createElement('div');
+                    serviceCard.className = 'service-card';
+                    serviceCard.innerHTML = `
+                        <div class="service-image">
+                            <i class="fas fa-${getServiceIcon(service.category)}"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3 class="service-title">${service.name}</h3>
+                            <p class="service-description">${service.description}</p>
+                            <div class="service-meta">
+                                <div class="service-price">R${service.price}</div>
+                                <div class="service-rating">
+                                    <i class="fas fa-star"></i>
+                                    <span>${service.rating}</span>
+                                </div>
+                            </div>
+                            <div class="service-actions">
+                                <button class="btn btn-outline view-details" data-service="${service.id}">Details</button>
+                                <button class="btn btn-primary book-service" data-service="${service.id}">Book Now</button>
+                            </div>
+                        </div>
+                    `;
+                    servicesGrid.appendChild(serviceCard);
+                });
+                
+                // Add event listeners
+                document.querySelectorAll('.book-service').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const serviceId = this.dataset.service;
+                        openBookingModal(serviceId);
+                    });
+                });
+                
+            } catch (error) {
+                console.error('Error loading services:', error);
+                document.getElementById('servicesGrid').innerHTML = `
+                    <div class="text-center" style="grid-column: 1/-1; padding: 40px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                        <p>Unable to load services at this time.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load Customer Bookings from Backend
+        async function loadCustomerBookings() {
+            try {
+                const bookings = await simulateAPICall('bookings');
+                
+                const bookingsSection = document.querySelector('.content-section:last-child .section-content');
+                bookingsSection.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Provider</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${bookings.map(booking => `
+                                <tr>
+                                    <td>${booking.serviceName}</td>
+                                    <td>${booking.providerName}</td>
+                                    <td>${new Date(booking.date).toLocaleDateString()}</td>
+                                    <td>${booking.time}</td>
+                                    <td><span class="status-badge status-${booking.status.toLowerCase()}">${booking.status}</span></td>
+                                    <td>R${booking.amount}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                document.querySelector('.content-section:last-child .section-content').innerHTML = `
+                    <p>Unable to load bookings at this time.</p>
+                `;
+            }
+        }
+
+        // Load Provider Activity
+        async function loadProviderActivity() {
+            try {
+                const activity = await simulateAPICall('activity');
+                
+                const activitySection = document.querySelector('.content-section .section-content');
+                activitySection.innerHTML = `
+                    <ul class="activity-list">
+                        ${activity.map(item => `
+                            <li class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-${getActivityIcon(item.type)}"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">${item.title}</div>
+                                    <div class="activity-desc">${item.description}</div>
+                                    <div class="activity-time">${item.time}</div>
+                                </div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                console.error('Error loading activity:', error);
+            }
+        }
+
+        // Load Business Data
+        async function loadBusinessData() {
+            try {
+                const businessData = await simulateAPICall('business');
+                // Implement business data rendering
+            } catch (error) {
+                console.error('Error loading business data:', error);
+            }
+        }
+
+        // Load Wholesaler Orders
+        async function loadWholesalerOrders() {
+            try {
+                const orders = await simulateAPICall('orders');
+                // Implement orders rendering
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        // Setup Quick Actions
+        function setupQuickActions() {
+            document.querySelectorAll('.action-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const action = this.dataset.action;
+                    handleQuickAction(action);
+                });
+            });
+        }
+
+        // Simulate API Call (Replace with actual fetch calls)
+        async function simulateAPICall(endpoint) {
+            // This simulates API delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Return mock data that matches what the backend would provide
+            switch(endpoint) {
+                case 'services':
+                    return [
+                        {
+                            id: 1,
+                            name: "Home Cleaning",
+                            description: "Professional home cleaning service including living room, kitchen, and bathrooms.",
+                            price: 120,
+                            rating: 4.8,
+                            category: "Cleaning",
+                            providerName: "CleanPro Services"
+                        },
+                        {
+                            id: 2,
+                            name: "Plumbing Repair",
+                            description: "Expert plumbing services for leaks, clogs, and installations.",
+                            price: 85,
+                            rating: 4.6,
+                            category: "Repair",
+                            providerName: "FixIt Plumbers"
+                        }
+                    ];
+                case 'bookings':
+                    return [
+                        {
+                            serviceName: "Home Cleaning",
+                            providerName: "CleanPro Services",
+                            date: new Date(),
+                            time: "10:00 AM",
+                            status: "Confirmed",
+                            amount: 120
+                        }
+                    ];
+                case 'activity':
+                    return dashboardData?.recentActivity || [];
+                default:
+                    return [];
+            }
+        }
+
+        // Utility Functions
+        function getServiceIcon(category) {
+            switch(category) {
+                case 'Cleaning': return 'broom';
+                case 'Repair': return 'tools';
+                case 'Beauty': return 'spa';
+                case 'Outdoor': return 'leaf';
+                case 'Fitness': return 'dumbbell';
+                default: return 'concierge-bell';
+            }
+        }
+
+        function getActivityIcon(type) {
+            switch(type) {
+                case 'booking': return 'calendar-plus';
+                case 'review': return 'star';
+                case 'payment': return 'money-bill-wave';
+                default: return 'bell';
+            }
+        }
+
+        // Open Booking Modal
+        function openBookingModal(serviceId) {
+            // In a real implementation, you would fetch service details from the backend
+            selectedService = { id: serviceId, name: "Sample Service" };
+            serviceNameInput.value = selectedService.name;
+            bookingModal.style.display = 'flex';
+        }
+
+        // Handle Booking Submission
+        async function handleBookingSubmit(e) {
+            e.preventDefault();
+            
+            const date = document.getElementById('bookingDate').value;
+            const time = document.getElementById('bookingTime').value;
+            const requests = document.getElementById('specialRequests').value;
+            
+            if (!date || !time) {
+                showNotification('Please select date and time', 'error');
+                return;
+            }
+            
+            try {
+                // Simulate API call to create booking
+                await simulateAPICall('create-booking');
+                
+                showNotification(`Booking confirmed for ${selectedService.name} on ${date} at ${time}`, 'success');
+                
+                // Close modal and reset form
+                bookingModal.style.display = 'none';
+                bookingForm.reset();
+                
+            } catch (error) {
+                showNotification('Error creating booking', 'error');
+            }
+        }
+
+        // Handle Quick Actions
+        function handleQuickAction(action) {
+            showNotification(`Action triggered: ${action}`, 'info');
+            
+            switch(action) {
+                case 'add-service':
+                    // Navigate to add service page
+                    break;
+                case 'schedule':
+                    // Navigate to scheduling page
+                    break;
+                case 'promote':
+                    // Navigate to promotion page
+                    break;
+                case 'support':
+                    // Open support modal
+                    break;
+            }
+        }
+
+        // Navigate to Section
+        function navigateToSection(section) {
+            // Update active menu item
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${section}"]`).classList.add('active');
+            
+            showNotification(`Navigating to ${section} section`, 'info');
+        }
+
+        // Handle Logout
+        async function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    await fetch(`${API_BASE_URL}/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`
+                        }
+                    });
+                } catch (error) {
+                    console.error('Logout error:', error);
+                } finally {
+                    // Clear local storage
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                }
+            }
+        }
+
+        // Update User Theme on Server
+        async function updateUserTheme(theme) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/update-theme`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ theme })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    localStorage.setItem('authToken', data.token);
+                    authToken = data.token;
+                }
+            } catch (error) {
+                console.error('Error updating theme:', error);
+            }
+        }
+
+        // Show Notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            notificationContainer.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
