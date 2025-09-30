@@ -1846,6 +1846,50 @@
     <div id="notificationContainer"></div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("authToken");
+
+    // If no token, user is not logged in → stay on homepage
+    if (!token) {
+        console.log("No user logged in. Staying on homepage.");
+        return;
+    }
+
+    // If logged in → fetch user details to decide where to redirect
+    fetch("http://localhost:3000/api/user", {
+        headers: { "Authorization": `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.needsProfileCompletion || !data.user.profileCompleted) {
+            window.location.href = "role-selection.html";
+        } else {
+            window.location.href = "dashboard.html";
+        }
+    })
+    .catch(err => {
+        console.error("Error fetching user:", err);
+        // If error → treat as logged out
+        localStorage.removeItem("authToken");
+    });
+});
+function handleLoginSuccess(data) {
+    // Save token so user stays logged in
+    localStorage.setItem("authToken", data.token);
+
+    // Decide where to send them
+    if (data.needsProfileCompletion || !data.user.profileCompleted) {
+        window.location.href = "role-selection.html";
+    } else {
+        window.location.href = "dashboard.html";
+    }
+}
+function handleLogout() {
+    localStorage.removeItem("authToken");
+    window.location.href = "index.html"; // Back to homepage
+}
+
+
         // API Configuration
         const API_BASE_URL = 'http://localhost:3000/api';
         
