@@ -1557,13 +1557,20 @@
 
     <script>
         // API Configuration
-        const API_BASE_URL = 'http://localhost:3000/api';
+        const API_BASE_URL = 'http://localhost:3001/api';
         
         // State Management
         let currentUser = null;
         let authToken = localStorage.getItem('authToken');
         let selectedService = null;
         let dashboardData = null;
+
+        // Ensure auth token exists for testing
+        if (!authToken) {
+            authToken = 'temp-auth-token-' + Date.now();
+            localStorage.setItem('authToken', authToken);
+            console.log('Created temporary auth token for testing:', authToken);
+        }
 
         // DOM Elements
         const sidebar = document.getElementById('sidebar');
@@ -1621,7 +1628,7 @@
                 showNotification('Error loading dashboard', 'error');
                 // Redirect to login if unauthorized
                 if (error.message.includes('401') || error.message.includes('403')) {
-                    window.location.href = 'login.html';
+                    window.location.href = 'index.html';
                 }
             }
         }
@@ -2637,18 +2644,18 @@
                         </div>
 
                         <!-- Demo Services Grid -->
-                        <div id="demoServicesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+                        <div id="demoServicesGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
                             ${demoServices.map(service => `
                                 <div class="demo-card" style="background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); border: 1px solid rgba(0,0,0,0.1);">
                                     <!-- Service Header -->
-                                    <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 20px; text-align: center;">
-                                        <i class="fas fa-${service.image}" style="font-size: 2.5rem; margin-bottom: 10px; opacity: 0.9;"></i>
-                                        <h4 style="margin: 0; font-size: 1.2rem; font-weight: 600;">${service.name}</h4>
+                                    <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 15px; text-align: center;">
+                                        <i class="fas fa-${service.image}" style="font-size: 2rem; margin-bottom: 8px; opacity: 0.9;"></i>
+                                        <h4 style="margin: 0; font-size: 1.1rem; font-weight: 600;">${service.name}</h4>
                                         <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem;">${service.category}</p>
                                     </div>
                                     
                                     <!-- Service Content -->
-                                    <div style="padding: 20px;">
+                                    <div style="padding: 15px;">
                                         <div style="margin-bottom: 15px;">
                                             <p style="color: var(--text); font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">${service.demo}</p>
                                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
