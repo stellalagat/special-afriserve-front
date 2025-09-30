@@ -434,16 +434,13 @@
 
     <script>
         // API Configuration
-        const API_BASE = 'http://localhost:3001/api';
+        const API_BASE = 'http://localhost:3000/api';
         let selectedRole = null;
         let authToken = localStorage.getItem('authToken');
 
         // Check if user is authenticated
         if (!authToken) {
-            // For testing purposes, create a temporary auth token
-            authToken = 'temp-auth-token-' + Date.now();
-            localStorage.setItem('authToken', authToken);
-            console.log('Created temporary auth token for testing:', authToken);
+            window.location.href = 'login.html';
         }
 
         // Role data with detailed information

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 // Middleware
 app.use(cors({
@@ -139,148 +139,34 @@ app.post('/api/login', (req, res) => {
     }
 });
 
-// In-memory storage for completed profiles
-let completedProfiles = [];
-
-// Get user profile (check if profile exists)
-app.get('/api/profile', (req, res) => {
+app.post('/api/profile', (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader?.split(' ')[1];
-        
-        // Find user profile by token (in a real app, you'd decode the token and query database)
-        const userProfile = completedProfiles.find(profile => profile.token === token);
-        
-        if (userProfile) {
-            // Return existing profile data for dashboard
-            res.json({
-                success: true,
-                user: {
-                    profileCompleted: true,
-                    fullName: userProfile.fullName,
-                    role: userProfile.role,
-                    uniqueId: userProfile.uniqueId,
-                    email: userProfile.email || 'user@example.com'
-                }
-            });
-        } else {
-            // No profile exists, allow profile creation
-            res.json({
-                success: true,
-                user: {
-                    profileCompleted: false
-                }
-            });
-        }
-    } catch (error) {
-        console.error('Profile check error:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Internal server error' 
-        });
-    }
-});
-
-// Complete user profile
-app.post('/api/complete-profile', (req, res) => {
-    try {
-        const { role, profileData, businessInitials, userChosenNumber } = req.body;
-        const authHeader = req.headers.authorization;
-        const currentToken = authHeader?.split(' ')[1];
+        const { role, ...profileData } = req.body;
         
         // Generate unique ID for the profile
         const uniqueId = `${role.toUpperCase()}-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-        const newToken = uuidv4();
-        
-        // Extract full name from profile data
-        const fullName = `${profileData.personal?.firstName || 'User'} ${profileData.personal?.lastName || ''}`.trim();
         
         const profile = {
             id: uuidv4(),
             uniqueId,
             role,
-            fullName,
-            email: profileData.personal?.email || 'user@example.com',
-            profileData,
-            businessInitials,
-            userChosenNumber,
-            token: newToken,
+            ...profileData,
             createdAt: new Date().toISOString()
         };
 
-        // Store the completed profile
-        completedProfiles.push(profile);
+        // In a real app, you'd save this to a database
         console.log('Profile created:', profile);
 
         res.json({
             success: true,
             message: 'Profile created successfully',
-            user: {
-                uniqueId,
-                profileCompleted: true,
-                fullName,
-                role
-            },
-            token: newToken
+            data: {
+                profile,
+                uniqueId
+            }
         });
     } catch (error) {
         console.error('Profile creation error:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Internal server error' 
-        });
-    }
-});
-
-// Get dashboard data
-app.get('/api/dashboard', (req, res) => {
-    try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader?.split(' ')[1];
-        
-        // Find user profile by token
-        const userProfile = completedProfiles.find(profile => profile.token === token);
-        
-        if (!userProfile) {
-            return res.status(401).json({
-                success: false,
-                message: 'User not found or not authenticated'
-            });
-        }
-
-        // Generate role-specific dashboard data
-        const dashboardData = {
-            notifications: Math.floor(Math.random() * 10) + 1,
-            quickStats: {
-                totalBookings: Math.floor(Math.random() * 20) + 1,
-                pendingRequests: Math.floor(Math.random() * 5) + 1,
-                completedServices: Math.floor(Math.random() * 50) + 10,
-                revenue: Math.floor(Math.random() * 10000) + 1000
-            },
-            recentActivity: [
-                {
-                    id: 1,
-                    type: 'booking',
-                    message: 'New service booking received',
-                    time: '2 hours ago',
-                    status: 'pending'
-                },
-                {
-                    id: 2,
-                    type: 'payment',
-                    message: 'Payment received for service',
-                    time: '1 day ago',
-                    status: 'completed'
-                }
-            ]
-        };
-
-        res.json({
-            success: true,
-            dashboardData
-        });
-    } catch (error) {
-        console.error('Dashboard data error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Internal server error' 

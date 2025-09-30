@@ -1070,6 +1070,155 @@
         .hidden { display: none; }
         .fade-in { animation: fadeIn 0.8s ease-out; }
         .slide-in { animation: slideIn 0.8s ease-out; }
+        
+        /* About Section Styles */
+        .about-section {
+            padding: 100px 0;
+            background-color: var(--bg);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            margin-top: 50px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 100%;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+        }
+
+        .about-image-overlay span {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .about-text h3:after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        .about-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            min-width: 150px;
+            transition: var(--transition);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text);
+            text-align: center;
+        }
+
+        .values-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .values-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .values-list i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                max-height: 400px;
+            }
+            
+            .about-stats {
+                justify-content: center;
+            }
+        }
         /* Your existing CSS styles remain exactly the same */
         /* ... all CSS code from your file ... */
     </style>
@@ -1246,6 +1395,58 @@
                     </div>
                     <h3>Rate & Review</h3>
                     <p>Share your experience and help others make better choices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Africonnect</h2>
+                <p>Empowering African businesses and connecting communities since 2023</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Team meeting">
+                    <div class="about-image-overlay">
+                        <span>Our Mission</span>
+                    </div>
+                </div>
+                
+                <div class="about-text">
+                    <h3>Our Story</h3>
+                    <p>Africonnect was founded with a simple yet powerful vision: to bridge the gap between local businesses and customers across Africa. We recognized the untapped potential of African entrepreneurship and the need for a platform that could showcase the incredible talent, products, and services the continent has to offer.</p>
+                    
+                    <h3>Our Mission</h3>
+                    <p>We're on a mission to empower African businesses by providing them with the digital tools and marketplace they need to thrive in today's economy. By connecting service providers, business owners, wholesalers, and customers on one platform, we're creating an ecosystem that fosters growth, collaboration, and economic development.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">African Countries</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5,000+</span>
+                            <span class="stat-label">Registered Businesses</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50,000+</span>
+                            <span class="stat-label">Happy Customers</span>
+                        </div>
+                    </div>
+                    
+                    <h3>Our Values</h3>
+                    <ul class="values-list">
+                        <li><i class="fas fa-check-circle"></i> <strong>Community:</strong> Building stronger connections between businesses and customers</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Quality:</strong> Ensuring high standards across all services and products</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Innovation:</strong> Embracing technology to solve local challenges</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Empowerment:</strong> Providing tools for economic growth and independence</li>
+                    </ul>
+                    
+                    <a href="#contact" class="btn btn-primary">Get in Touch <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -1456,7 +1657,7 @@
 
     <script>
         // API Configuration
-        const API_BASE_URL = 'http://localhost:3001/api';
+        const API_BASE_URL = 'http://localhost:3000/api';
         
         // State Management
         let currentUser = null;

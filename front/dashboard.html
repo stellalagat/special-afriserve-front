@@ -1557,20 +1557,13 @@
 
     <script>
         // API Configuration
-        const API_BASE_URL = 'http://localhost:3001/api';
+        const API_BASE_URL = 'http://localhost:3000/api';
         
         // State Management
         let currentUser = null;
         let authToken = localStorage.getItem('authToken');
         let selectedService = null;
         let dashboardData = null;
-
-        // Ensure auth token exists for testing
-        if (!authToken) {
-            authToken = 'temp-auth-token-' + Date.now();
-            localStorage.setItem('authToken', authToken);
-            console.log('Created temporary auth token for testing:', authToken);
-        }
 
         // DOM Elements
         const sidebar = document.getElementById('sidebar');
@@ -1628,7 +1621,7 @@
                 showNotification('Error loading dashboard', 'error');
                 // Redirect to login if unauthorized
                 if (error.message.includes('401') || error.message.includes('403')) {
-                    window.location.href = 'index.html';
+                    window.location.href = 'login.html';
                 }
             }
         }
