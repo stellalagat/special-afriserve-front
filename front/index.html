@@ -2067,7 +2067,7 @@
                     showNotification('Login successful! Redirecting...', 'success');
                     
                     setTimeout(() => {
-                        if (data.needsProfileCompletion) {
+                        if (data.needsProfileCompletion || !data.user.profileCompleted) {
                             window.location.href = 'role-selection.html';
                         } else {
                             window.location.href = 'dashboard.html';
@@ -2109,6 +2109,7 @@
                 if (data.success) {
                     authToken = data.token;
                     localStorage.setItem('authToken', authToken);
+                    localStorage.setItem('userData', JSON.stringify(data.user));
                     currentUser = data.user;
                     
                     showNotification('Registration successful! Welcome to Africonnect!', 'success');

@@ -16,6 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // In-memory storage (replace with database in production)
 let users = [];
+let profiles = [];
+let sessions = {}; // Store token -> userId mapping
 let roles = [
     {
         id: 'Customer',
@@ -42,6 +44,31 @@ let roles = [
         icon: 'fas fa-warehouse'
     }
 ];
+
+// Middleware to verify authentication
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+        return res.status(401).json({ 
+            success: false, 
+            message: 'Authentication required' 
+        });
+    }
+
+    const userId = sessions[token];
+    if (!userId) {
+        return res.status(403).json({ 
+            success: false, 
+            message: 'Invalid or expired token' 
+        });
+    }
+
+    req.userId = userId;
+    req.token = token;
+    next();
+}
 
 // Routes
 app.get('/api/roles', (req, res) => {
@@ -76,19 +103,21 @@ app.post('/api/register', (req, res) => {
 
         // Generate auth token (simple UUID for demo)
         const authToken = uuidv4();
+        
+        // Store session
+        sessions[authToken] = newUser.id;
 
         res.json({
             success: true,
             message: 'Registration successful',
-            data: {
-                user: {
-                    id: newUser.id,
-                    email: newUser.email,
-                    firstName: newUser.firstName,
-                    lastName: newUser.lastName,
-                    phone: newUser.phone
-                },
-                token: authToken
+            token: authToken,
+            user: {
+                id: newUser.id,
+                email: newUser.email,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                phone: newUser.phone,
+                profileCompleted: false
             }
         });
     } catch (error) {
@@ -115,19 +144,28 @@ app.post('/api/login', (req, res) => {
 
         // Generate auth token
         const authToken = uuidv4();
+        
+        // Store session
+        sessions[authToken] = user.id;
+        
+        // Check if user has completed profile
+        const profile = profiles.find(p => p.userId === user.id);
+        const needsProfileCompletion = !profile;
 
         res.json({
             success: true,
             message: 'Login successful',
-            data: {
-                user: {
-                    id: user.id,
-                    email: user.email,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    phone: user.phone
-                },
-                token: authToken
+            needsProfileCompletion: needsProfileCompletion,
+            token: authToken,
+            user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone,
+                profileCompleted: !!profile,
+                role: user.role || null,
+                uniqueId: user.uniqueId || null
             }
         });
     } catch (error) {
@@ -139,34 +177,114 @@ app.post('/api/login', (req, res) => {
     }
 });
 
-app.post('/api/profile', (req, res) => {
+// Get user profile (check if profile exists)
+app.get('/api/profile', authenticateToken, (req, res) => {
     try {
-        const { role, ...profileData } = req.body;
+        const user = users.find(u => u.id === req.userId);
+        if (!user) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
+        }
+
+        const profile = profiles.find(p => p.userId === req.userId);
+
+        res.json({
+            success: true,
+            user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone,
+                profileCompleted: !!profile
+            },
+            profile: profile || null
+        });
+    } catch (error) {
+        console.error('Profile retrieval error:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Internal server error' 
+        });
+    }
+});
+
+// Complete user profile after role selection
+app.post('/api/complete-profile', authenticateToken, (req, res) => {
+    try {
+        const { role, profileData, businessInitials, userChosenNumber } = req.body;
         
-        // Generate unique ID for the profile
-        const uniqueId = `${role.toUpperCase()}-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+        const user = users.find(u => u.id === req.userId);
+        if (!user) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
+        }
+
+        // Check if user already has a profile
+        const existingProfile = profiles.find(p => p.userId === req.userId);
+        if (existingProfile) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Profile already exists' 
+            });
+        }
+
+        // Generate unique ID based on role
+        let uniqueId;
+        if (role === 'BusinessOwner' || role === 'Wholesaler') {
+            // Custom format: INITIALS-NUMBER-RANDOM
+            const initials = (businessInitials || 'BIZ').toUpperCase();
+            const number = String(userChosenNumber || Math.floor(Math.random() * 10000)).padStart(4, '0');
+            const random = Math.random().toString(36).substr(2, 6).toUpperCase();
+            uniqueId = `${initials}-${number}-${random}`;
+        } else {
+            // Standard format: ROLE-TIMESTAMP-RANDOM
+            const timestamp = Date.now().toString().slice(-8);
+            const random = Math.random().toString(36).substr(2, 6).toUpperCase();
+            uniqueId = `${role.toUpperCase()}-${timestamp}-${random}`;
+        }
         
         const profile = {
             id: uuidv4(),
+            userId: req.userId,
             uniqueId,
             role,
-            ...profileData,
-            createdAt: new Date().toISOString()
+            profileData,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
         };
 
-        // In a real app, you'd save this to a database
+        profiles.push(profile);
+        
+        // Update user object
+        user.profileCompleted = true;
+        user.role = role;
+        user.uniqueId = uniqueId;
+
         console.log('Profile created:', profile);
 
         res.json({
             success: true,
-            message: 'Profile created successfully',
-            data: {
-                profile,
-                uniqueId
-            }
+            message: 'Profile completed successfully',
+            token: req.token,
+            user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone: user.phone,
+                role: user.role,
+                uniqueId: user.uniqueId,
+                profileCompleted: true
+            },
+            profile
         });
     } catch (error) {
-        console.error('Profile creation error:', error);
+        console.error('Profile completion error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Internal server error' 

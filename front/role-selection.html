@@ -440,7 +440,8 @@
 
         // Check if user is authenticated
         if (!authToken) {
-            window.location.href = 'login.html';
+            alert('Please login first to access this page');
+            window.location.href = 'index.html';
         }
 
         // Role data with detailed information
