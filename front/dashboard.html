@@ -1001,6 +1001,54 @@
             color: var(--dark);
         }
 
+        /* Demo Cards */
+        .demo-card {
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Enhanced Search Bar */
+        .form-control {
+            padding: 10px 15px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+        }
+
+        /* Section Messages */
+        .message-item {
+            transition: var(--transition);
+        }
+
+        .message-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Booking Status Icons */
+        .booking-status i {
+            margin-right: 5px;
+        }
+
+        /* Responsive Grid for Demos */
+        @media (max-width: 768px) {
+            .demo-card {
+                margin-bottom: 15px;
+            }
+        }
+
         .service-status {
             padding: 4px 8px;
             border-radius: 12px;
@@ -2446,51 +2494,155 @@
         // Load Services Section
         function loadServicesSection() {
             const demoServices = [
-                { id: 1, name: 'Plumbing Services', category: 'Home Services', price: 'R150/hour', rating: 4.5, status: 'Active' },
-                { id: 2, name: 'Electrical Repairs', category: 'Home Services', price: 'R200/hour', rating: 4.8, status: 'Active' },
-                { id: 3, name: 'Car Wash & Detailing', category: 'Automotive', price: 'R300', rating: 4.2, status: 'Active' },
-                { id: 4, name: 'Hair Styling', category: 'Beauty', price: 'R250', rating: 4.7, status: 'Active' },
-                { id: 5, name: 'Tutoring - Mathematics', category: 'Education', price: 'R120/hour', rating: 4.9, status: 'Inactive' },
-                { id: 6, name: 'House Cleaning', category: 'Home Services', price: 'R180/hour', rating: 4.3, status: 'Active' }
+                { id: 1, name: 'Plumbing Services', category: 'Home Services', price: 'R150/hour', rating: 4.5, status: 'Active', demo: 'Watch our expert plumber fix common issues', bookings: 12 },
+                { id: 2, name: 'Electrical Repairs', category: 'Home Services', price: 'R200/hour', rating: 4.8, status: 'Active', demo: 'See safe electrical repair techniques', bookings: 8 },
+                { id: 3, name: 'Car Wash & Detailing', category: 'Automotive', price: 'R300', rating: 4.2, status: 'Active', demo: 'Professional car detailing process', bookings: 15 },
+                { id: 4, name: 'Hair Styling', category: 'Beauty', price: 'R250', rating: 4.7, status: 'Active', demo: 'Latest hair styling trends and techniques', bookings: 22 },
+                { id: 5, name: 'Tutoring - Mathematics', category: 'Education', price: 'R120/hour', rating: 4.9, status: 'Inactive', demo: 'Interactive math problem solving', bookings: 5 },
+                { id: 6, name: 'House Cleaning', category: 'Home Services', price: 'R180/hour', rating: 4.3, status: 'Active', demo: 'Efficient home cleaning methods', bookings: 18 }
+            ];
+
+            const bookingConfirmations = [
+                { id: 1, service: 'Plumbing Services', customer: 'John Doe', date: '2024-01-20', status: 'Confirmed' },
+                { id: 2, service: 'Hair Styling', customer: 'Sarah Wilson', date: '2024-01-21', status: 'Pending' },
+                { id: 3, service: 'Car Wash & Detailing', customer: 'Mike Johnson', date: '2024-01-22', status: 'Confirmed' }
+            ];
+
+            const sectionMessages = [
+                { section: 'Services', message: 'You have 6 active services. Consider adding more to increase your visibility.', type: 'info' },
+                { section: 'Bookings', message: '3 new booking confirmations require your attention.', type: 'warning' },
+                { section: 'Reviews', message: 'Your average rating is 4.6/5. Keep up the excellent work!', type: 'success' },
+                { section: 'Profile', message: 'Complete your profile to attract more customers.', type: 'info' }
             ];
 
             roleContent.innerHTML = `
+                <!-- Section Messages -->
                 <div class="content-section">
                     <div class="section-header">
-                        <h3>My Services</h3>
+                        <h3><i class="fas fa-info-circle"></i> Section Updates</h3>
+                    </div>
+                    <div class="section-content">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                            ${sectionMessages.map(msg => `
+                                <div class="message-item" style="border-left: 4px solid ${msg.type === 'success' ? 'var(--secondary)' : msg.type === 'warning' ? '#F59E0B' : 'var(--primary)'};">
+                                    <div class="message-sender">
+                                        <strong>${msg.section} Section</strong>
+                                        <i class="fas fa-${msg.type === 'success' ? 'check-circle' : msg.type === 'warning' ? 'exclamation-triangle' : 'info-circle'}" style="color: ${msg.type === 'success' ? 'var(--secondary)' : msg.type === 'warning' ? '#F59E0B' : 'var(--primary)'};"></i>
+                                    </div>
+                                    <div class="message-preview">${msg.message}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Services -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-concierge-bell"></i> My Services</h3>
                         <button class="btn btn-primary" onclick="showAddServiceModal()">
                             <i class="fas fa-plus"></i> Add Service
                         </button>
                     </div>
                     <div class="section-content">
-                        <!-- Search Bar -->
-                        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
-                            <input type="text" id="serviceSearch" class="form-control" placeholder="Search services..." style="flex: 1;">
-                            <button class="btn btn-secondary" onclick="searchServices()">
+                        <!-- Enhanced Search Bar -->
+                        <div style="margin-bottom: 25px; display: flex; gap: 10px; align-items: center; background: var(--bg); padding: 15px; border-radius: var(--radius);">
+                            <i class="fas fa-search" style="color: var(--primary);"></i>
+                            <input type="text" id="serviceSearch" class="form-control" placeholder="Search services by name, category, or status..." style="flex: 1; border: none; background: transparent;">
+                            <button class="btn btn-primary" onclick="searchServices()">
                                 <i class="fas fa-search"></i> Search
+                            </button>
+                            <button class="btn btn-secondary" onclick="clearSearch()">
+                                <i class="fas fa-times"></i> Clear
                             </button>
                         </div>
 
+                        <!-- Service Demos Section -->
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px; color: var(--dark);"><i class="fas fa-play-circle"></i> Service Demos</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                                ${demoServices.map(service => `
+                                    <div class="demo-card" style="background: var(--card-bg); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow); border-left: 4px solid var(--primary);">
+                                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                            <i class="fas fa-video" style="color: var(--primary);"></i>
+                                            <h5 style="margin: 0; color: var(--dark);">${service.name}</h5>
+                                        </div>
+                                        <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px;">${service.demo}</p>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <button class="btn btn-sm btn-primary" onclick="playDemo(${service.id})">
+                                                <i class="fas fa-play"></i> Watch Demo
+                                            </button>
+                                            <span style="font-size: 0.8rem; opacity: 0.7;">${service.rating} ⭐</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
                         <!-- Services List -->
-                        <div id="servicesList" class="services-grid">
-                            ${demoServices.map(service => `
-                                <div class="service-card" data-id="${service.id}">
-                                    <div class="service-header">
-                                        <h4>${service.name}</h4>
-                                        <span class="service-status ${service.status.toLowerCase()}">${service.status}</span>
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px; color: var(--dark);"><i class="fas fa-list"></i> All Services</h4>
+                            <div id="servicesList" class="services-grid">
+                                ${demoServices.map(service => `
+                                    <div class="service-card" data-id="${service.id}">
+                                        <div class="service-header">
+                                            <h4>${service.name}</h4>
+                                            <span class="service-status ${service.status.toLowerCase()}">${service.status}</span>
+                                        </div>
+                                        <div class="service-info">
+                                            <p><strong>Category:</strong> ${service.category}</p>
+                                            <p><strong>Price:</strong> ${service.price}</p>
+                                            <p><strong>Rating:</strong> ${service.rating} ⭐</p>
+                                            <p><strong>Bookings:</strong> ${service.bookings} this month</p>
+                                        </div>
+                                        <div class="service-actions">
+                                            <button class="btn btn-sm btn-outline-primary" onclick="editService(${service.id})">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="deleteService(${service.id})">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                            <button class="btn btn-sm btn-success" onclick="viewBookings(${service.id})">
+                                                <i class="fas fa-calendar"></i> Bookings
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="service-info">
-                                        <p><strong>Category:</strong> ${service.category}</p>
-                                        <p><strong>Price:</strong> ${service.price}</p>
-                                        <p><strong>Rating:</strong> ${service.rating} ⭐</p>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Confirmations -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-calendar-check"></i> Recent Booking Confirmations</h3>
+                        <button class="btn btn-secondary" onclick="viewAllBookings()">
+                            <i class="fas fa-eye"></i> View All
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="bookings-list">
+                            ${bookingConfirmations.map(booking => `
+                                <div class="booking-item" style="border-left: 4px solid ${booking.status === 'Confirmed' ? 'var(--secondary)' : '#F59E0B'};">
+                                    <div class="booking-info">
+                                        <h4>${booking.service}</h4>
+                                        <p><strong>Customer:</strong> ${booking.customer}</p>
+                                        <p><strong>Date:</strong> ${booking.date}</p>
                                     </div>
-                                    <div class="service-actions">
-                                        <button class="btn btn-sm btn-outline-primary" onclick="editService(${service.id})">
-                                            <i class="fas fa-edit"></i> Edit
+                                    <div class="booking-status ${booking.status.toLowerCase()}">
+                                        <i class="fas fa-${booking.status === 'Confirmed' ? 'check-circle' : 'clock'}"></i>
+                                        ${booking.status}
+                                    </div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails(${booking.id})">
+                                            <i class="fas fa-eye"></i> Details
                                         </button>
-                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteService(${service.id})">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </button>
+                                        ${booking.status === 'Pending' ? `
+                                            <button class="btn btn-sm btn-success" onclick="confirmBooking(${booking.id})">
+                                                <i class="fas fa-check"></i> Confirm
+                                            </button>
+                                        ` : ''}
                                     </div>
                                 </div>
                             `).join('')}
@@ -2509,16 +2661,74 @@
         function searchServices() {
             const searchTerm = document.getElementById('serviceSearch').value.toLowerCase();
             const services = document.querySelectorAll('.service-card');
+            const demos = document.querySelectorAll('.demo-card');
 
             services.forEach(service => {
                 const name = service.querySelector('h4').textContent.toLowerCase();
                 const category = service.querySelector('.service-info p:first-child').textContent.toLowerCase();
-                if (name.includes(searchTerm) || category.includes(searchTerm)) {
+                const status = service.querySelector('.service-status').textContent.toLowerCase();
+                if (name.includes(searchTerm) || category.includes(searchTerm) || status.includes(searchTerm)) {
                     service.style.display = 'block';
                 } else {
                     service.style.display = 'none';
                 }
             });
+
+            demos.forEach(demo => {
+                const name = demo.querySelector('h5').textContent.toLowerCase();
+                const description = demo.querySelector('p').textContent.toLowerCase();
+                if (name.includes(searchTerm) || description.includes(searchTerm)) {
+                    demo.style.display = 'block';
+                } else {
+                    demo.style.display = 'none';
+                }
+            });
+        }
+
+        // Clear Search
+        function clearSearch() {
+            document.getElementById('serviceSearch').value = '';
+            const services = document.querySelectorAll('.service-card');
+            const demos = document.querySelectorAll('.demo-card');
+            
+            services.forEach(service => {
+                service.style.display = 'block';
+            });
+            
+            demos.forEach(demo => {
+                demo.style.display = 'block';
+            });
+        }
+
+        // Play Demo
+        function playDemo(serviceId) {
+            showNotification(`Playing demo for service ${serviceId}. Demo player coming soon!`, 'info');
+        }
+
+        // View Bookings for Service
+        function viewBookings(serviceId) {
+            showNotification(`Viewing bookings for service ${serviceId}. Detailed view coming soon!`, 'info');
+        }
+
+        // View All Bookings
+        function viewAllBookings() {
+            navigateToSection('bookings');
+        }
+
+        // View Booking Details
+        function viewBookingDetails(bookingId) {
+            showNotification(`Viewing details for booking ${bookingId}. Detailed view coming soon!`, 'info');
+        }
+
+        // Confirm Booking
+        function confirmBooking(bookingId) {
+            if (confirm('Are you sure you want to confirm this booking?')) {
+                showNotification(`Booking ${bookingId} confirmed successfully!`, 'success');
+                // Refresh the services section to update the booking status
+                setTimeout(() => {
+                    loadServicesSection();
+                }, 1000);
+            }
         }
 
         // Load Bookings Section
