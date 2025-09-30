@@ -986,6 +986,408 @@
         .theme-selector {
             position: relative;
         }
+
+        /* Additional Styles for New Sections */
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .service-header h4 {
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .service-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .service-status.active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .service-status.inactive {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+        }
+
+        .service-info p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .service-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        .btn-outline-primary {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline-danger {
+            background: transparent;
+            border: 1px solid #E74C3C;
+            color: #E74C3C;
+        }
+
+        .btn-outline-danger:hover {
+            background: #E74C3C;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #10B981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+        .btn-danger {
+            background-color: #E74C3C;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #C0392B;
+        }
+
+        /* Bookings */
+        .bookings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .booking-item {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .booking-info h4 {
+            margin: 0 0 10px 0;
+            color: var(--dark);
+        }
+
+        .booking-info p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .booking-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .booking-status.pending {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+        }
+
+        .booking-status.completed {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .booking-status.in-progress {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Messages */
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message-item {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+
+        .message-item:hover {
+            background-color: var(--bg);
+        }
+
+        .message-item.unread {
+            border-left-color: var(--primary);
+            background-color: rgba(255, 107, 0, 0.05);
+        }
+
+        .message-sender {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .message-sender strong {
+            color: var(--dark);
+        }
+
+        .unread-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary);
+            border-radius: 50%;
+        }
+
+        .message-subject {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .message-preview {
+            color: var(--text);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Reviews */
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-item {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .review-rating {
+            color: #FFD166;
+        }
+
+        .review-content {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .review-date {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Settings Styles */
+        .settings-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .settings-group {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .settings-group.danger-zone {
+            border: 2px solid #FEE2E2;
+            background: linear-gradient(135deg, #FEF2F2, var(--card-bg));
+        }
+
+        .settings-group h4 {
+            margin: 0 0 25px 0;
+            color: var(--dark);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-info label {
+            font-weight: 600;
+            color: var(--dark);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .setting-info small {
+            color: #6B7280;
+            font-size: 0.85rem;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #CBD5E0;
+            transition: var(--transition);
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-switch:hover .toggle-slider {
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Form Controls */
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #D1D5DB;
+            border-radius: var(--radius);
+            background-color: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+        }
+
+        .form-control:read-only {
+            background-color: #F9FAFB;
+            color: #6B7280;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .setting-control {
+                align-self: flex-end;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1019,32 +1421,10 @@
                     <span class="notification-count">3</span>
                 </a>
 
-                <div class="menu-section">Business</div>
-                <a href="#analytics" class="menu-item" data-section="analytics">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Analytics</span>
-                </a>
-                <a href="#customers" class="menu-item" data-section="customers">
-                    <i class="fas fa-users"></i>
-                    <span>Customers</span>
-                </a>
-                <a href="#reviews" class="menu-item" data-section="reviews">
-                    <i class="fas fa-star"></i>
-                    <span>Reviews</span>
-                </a>
-
                 <div class="menu-section">Account</div>
-                <a href="#profile" class="menu-item" data-section="profile">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
                 <a href="#settings" class="menu-item" data-section="settings">
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
-                </a>
-                <a href="#help" class="menu-item" data-section="help">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Help & Support</span>
                 </a>
             </nav>
 
@@ -1125,10 +1505,6 @@
             <div style="font-size: 0.7rem; opacity: 0.6; margin-top: 2px;" id="dropdownUserId">ID: Loading...</div>
         </div>
         <div style="padding: 10px 0;">
-            <a href="#profile" style="display: flex; align-items: center; gap: 10px; padding: 10px 20px; text-decoration: none; color: var(--text); transition: var(--transition);">
-                <i class="fas fa-user"></i>
-                <span>My Profile</span>
-            </a>
             <a href="#settings" style="display: flex; align-items: center; gap: 10px; padding: 10px 20px; text-decoration: none; color: var(--text); transition: var(--transition);">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
@@ -2125,78 +2501,405 @@
             }
         }
 
-        // Navigate to Section
-        function navigateToSection(section) {
-            // Update active menu item
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.querySelector(`[data-section="${section}"]`).classList.add('active');
-            
-            showNotification(`Navigating to ${section} section`, 'info');
-        }
-
-        // Handle Logout
-        async function handleLogout() {
-            if (confirm('Are you sure you want to logout?')) {
-                try {
-                    await fetch(`${API_BASE_URL}/logout`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${authToken}`
-                        }
-                    });
-                } catch (error) {
-                    console.error('Logout error:', error);
-                } finally {
-                    // Clear local storage
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('user');
-                    
-                    // Redirect to login page
-                    window.location.href = 'index.html';
-                }
+        // Load Section Content
+        function loadSectionContent(section) {
+            switch(section) {
+                case 'dashboard':
+                    loadRoleSpecificContent();
+                    break;
+                case 'services':
+                    loadServicesSection();
+                    break;
+                case 'bookings':
+                    loadBookingsSection();
+                    break;
+                case 'messages':
+                    loadMessagesSection();
+                    break;
+                case 'reviews':
+                    loadReviewsSection();
+                    break;
+                case 'settings':
+                    loadSettingsSection();
+                    break;
+                default:
+                    showNotification('Section not found', 'error');
             }
         }
 
-        // Update User Theme on Server
-        async function updateUserTheme(theme) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/update-theme`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
-                    },
-                    body: JSON.stringify({ theme })
-                });
+        // Load Services Section
+        function loadServicesSection() {
+            const demoServices = [
+                { id: 1, name: 'Plumbing Services', category: 'Home Services', price: 'R150/hour', rating: 4.5, status: 'Active' },
+                { id: 2, name: 'Electrical Repairs', category: 'Home Services', price: 'R200/hour', rating: 4.8, status: 'Active' },
+                { id: 3, name: 'Car Wash & Detailing', category: 'Automotive', price: 'R300', rating: 4.2, status: 'Active' },
+                { id: 4, name: 'Hair Styling', category: 'Beauty', price: 'R250', rating: 4.7, status: 'Active' },
+                { id: 5, name: 'Tutoring - Mathematics', category: 'Education', price: 'R120/hour', rating: 4.9, status: 'Inactive' },
+                { id: 6, name: 'House Cleaning', category: 'Home Services', price: 'R180/hour', rating: 4.3, status: 'Active' }
+            ];
 
-                const data = await response.json();
-                
-                if (data.success) {
-                    localStorage.setItem('authToken', data.token);
-                    authToken = data.token;
-                }
-            } catch (error) {
-                console.error('Error updating theme:', error);
-            }
-        }
+            roleContent.innerHTML = `
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>My Services</h3>
+                        <button class="btn btn-primary" onclick="showAddServiceModal()">
+                            <i class="fas fa-plus"></i> Add Service
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <!-- Search Bar -->
+                        <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+                            <input type="text" id="serviceSearch" class="form-control" placeholder="Search services..." style="flex: 1;">
+                            <button class="btn btn-secondary" onclick="searchServices()">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
 
-        // Show Notification
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                ${message}
+                        <!-- Services List -->
+                        <div id="servicesList" class="services-grid">
+                            ${demoServices.map(service => `
+                                <div class="service-card" data-id="${service.id}">
+                                    <div class="service-header">
+                                        <h4>${service.name}</h4>
+                                        <span class="service-status ${service.status.toLowerCase()}">${service.status}</span>
+                                    </div>
+                                    <div class="service-info">
+                                        <p><strong>Category:</strong> ${service.category}</p>
+                                        <p><strong>Price:</strong> ${service.price}</p>
+                                        <p><strong>Rating:</strong> ${service.rating} ⭐</p>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editService(${service.id})">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteService(${service.id})">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
             `;
-            
-            notificationContainer.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 5000);
+
+            // Add search functionality
+            document.getElementById('serviceSearch').addEventListener('input', function() {
+                searchServices();
+            });
         }
-    </script>
-</body>
-</html>
+
+        // Search Services
+        function searchServices() {
+            const searchTerm = document.getElementById('serviceSearch').value.toLowerCase();
+            const services = document.querySelectorAll('.service-card');
+
+            services.forEach(service => {
+                const name = service.querySelector('h4').textContent.toLowerCase();
+                const category = service.querySelector('.service-info p:first-child').textContent.toLowerCase();
+                if (name.includes(searchTerm) || category.includes(searchTerm)) {
+                    service.style.display = 'block';
+                } else {
+                    service.style.display = 'none';
+                }
+            });
+        }
+
+        // Load Bookings Section
+        function loadBookingsSection() {
+            const demoBookings = [
+                { id: 1, service: 'Plumbing Services', customer: 'John Doe', date: '2024-01-15', time: '10:00 AM', status: 'Pending' },
+                { id: 2, service: 'Electrical Repairs', customer: 'Jane Smith', date: '2024-01-12', time: '2:00 PM', status: 'Completed' },
+                { id: 3, service: 'Car Wash & Detailing', customer: 'Bob Johnson', date: '2024-01-18', time: '9:00 AM', status: 'In Progress' }
+            ];
+
+            roleContent.innerHTML = `
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>My Bookings</h3>
+                        <button class="btn btn-primary" onclick="showNewBookingModal()">
+                            <i class="fas fa-plus"></i> New Booking
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="bookings-list">
+                            ${demoBookings.map(booking => `
+                                <div class="booking-item">
+                                    <div class="booking-info">
+                                        <h4>${booking.service}</h4>
+                                        <p><strong>Customer:</strong> ${booking.customer}</p>
+                                        <p><strong>Date:</strong> ${booking.date} at ${booking.time}</p>
+                                    </div>
+                                    <div class="booking-status ${booking.status.toLowerCase().replace(' ', '-')}">
+                                        ${booking.status}
+                                    </div>
+                                    <div class="booking-actions">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="viewBooking(${booking.id})">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                        ${booking.status === 'Pending' ? `
+                                            <button class="btn btn-sm btn-success" onclick="completeBooking(${booking.id})">
+                                                <i class="fas fa-check"></i> Complete
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load Messages Section
+        function loadMessagesSection() {
+            const demoMessages = [
+                { id: 1, from: 'John Doe', subject: 'Booking Confirmation', message: 'Hi, I would like to confirm my booking for plumbing services.', time: '2 hours ago', unread: true },
+                { id: 2, from: 'Jane Smith', subject: 'Service Inquiry', message: 'Can you provide more details about your electrical repair services?', time: '1 day ago', unread: false },
+                { id: 3, from: 'Bob Johnson', subject: 'Feedback', message: 'Thank you for the great car wash service!', time: '3 days ago', unread: false }
+            ];
+
+            roleContent.innerHTML = `
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Messages</h3>
+                        <button class="btn btn-primary" onclick="composeMessage()">
+                            <i class="fas fa-plus"></i> Compose
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="messages-list">
+                            ${demoMessages.map(message => `
+                                <div class="message-item ${message.unread ? 'unread' : ''}" onclick="viewMessage(${message.id})">
+                                    <div class="message-sender">
+                                        <strong>${message.from}</strong>
+                                        ${message.unread ? '<span class="unread-dot"></span>' : ''}
+                                    </div>
+                                    <div class="message-subject">${message.subject}</div>
+                                    <div class="message-preview">${message.message.substring(0, 100)}...</div>
+                                    <div class="message-time">${message.time}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load Reviews Section
+        function loadReviewsSection() {
+            const demoReviews = [
+                { id: 1, customer: 'John Doe', service: 'Plumbing Services', rating: 5, review: 'Excellent service! Very professional and timely.', date: '2024-01-10' },
+                { id: 2, customer: 'Jane Smith', service: 'Electrical Repairs', rating: 4, review: 'Good work, but could be a bit faster.', date: '2024-01-08' },
+                { id: 3, customer: 'Bob Johnson', service: 'Car Wash & Detailing', rating: 5, review: 'Spotless! Highly recommend.', date: '2024-01-05' }
+            ];
+
+            roleContent.innerHTML = `
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Reviews</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="reviews-list">
+                            ${demoReviews.map(review => `
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <strong>${review.customer}</strong> - ${review.service}
+                                        <div class="review-rating">
+                                            ${'⭐'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}
+                                        </div>
+                                    </div>
+                                    <div class="review-content">
+                                        "${review.review}"
+                                    </div>
+                                    <div class="review-date">${review.date}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load Settings Section
+        function loadSettingsSection() {
+            const user = currentUser || {};
+            
+            roleContent.innerHTML = `
+                <div class="content-section">
+                    <div class="section-header">
+                        <h3>Settings</h3>
+                        <button class="btn btn-primary" onclick="saveAllSettings()">
+                            <i class="fas fa-save"></i> Save All Changes
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="settings-container">
+                            <!-- Account Security -->
+                            <div class="settings-group">
+                                <h4><i class="fas fa-shield-alt"></i> Account Security</h4>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Change Password</label>
+                                        <small>Update your account password</small>
+                                    </div>
+                                    <button class="btn btn-outline-primary" onclick="showChangePasswordModal()">
+                                        <i class="fas fa-key"></i> Change
+                                    </button>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Two-Factor Authentication</label>
+                                        <small>Add an extra layer of security to your account</small>
+                                    </div>
+                                    <div class="setting-control">
+                                        <span class="status-badge ${user.twoFactorEnabled ? 'active' : 'inactive'}">
+                                            ${user.twoFactorEnabled ? 'Enabled' : 'Disabled'}
+                                        </span>
+                                        <button class="btn btn-outline-primary" onclick="toggle2FA()">
+                                            ${user.twoFactorEnabled ? 'Disable' : 'Enable'}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Login Sessions</label>
+                                        <small>Manage your active login sessions</small>
+                                    </div>
+                                    <button class="btn btn-outline-secondary" onclick="viewActiveSessions()">
+                                        <i class="fas fa-desktop"></i> View Sessions
+                                    </button>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Account Recovery</label>
+                                        <small>Set up account recovery options</small>
+                                    </div>
+                                    <button class="btn btn-outline-secondary" onclick="setupRecovery()">
+                                        <i class="fas fa-life-ring"></i> Setup
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Notification Preferences -->
+                            <div class="settings-group">
+                                <h4><i class="fas fa-bell"></i> Notification Preferences</h4>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Email Notifications</label>
+                                        <small>Receive notifications via email</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="emailNotifications" ${user.notifications?.email !== false ? 'checked' : ''} onchange="updateNotificationSetting('email', this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>SMS Notifications</label>
+                                        <small>Receive notifications via SMS</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="smsNotifications" ${user.notifications?.sms ? 'checked' : ''} onchange="updateNotificationSetting('sms', this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Push Notifications</label>
+                                        <small>Receive browser push notifications</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="pushNotifications" ${user.notifications?.push !== false ? 'checked' : ''} onchange="updateNotificationSetting('push', this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Marketing Emails</label>
+                                        <small>Receive promotional and marketing emails</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="marketingEmails" ${user.notifications?.marketing ? 'checked' : ''} onchange="updateNotificationSetting('marketing', this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Booking Reminders</label>
+                                        <small>Get reminded about upcoming bookings</small>
+                                    </div>
+                                    <select class="form-control" id="bookingReminders" onchange="updateNotificationSetting('bookingReminders', this.value)">
+                                        <option value="none" ${user.notifications?.bookingReminders === 'none' ? 'selected' : ''}>No Reminders</option>
+                                        <option value="1hour" ${user.notifications?.bookingReminders === '1hour' ? 'selected' : ''}>1 Hour Before</option>
+                                        <option value="24hours" ${user.notifications?.bookingReminders === '24hours' || !user.notifications?.bookingReminders ? 'selected' : ''}>24 Hours Before</option>
+                                        <option value="both" ${user.notifications?.bookingReminders === 'both' ? 'selected' : ''}>Both</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Privacy Settings -->
+                            <div class="settings-group">
+                                <h4><i class="fas fa-user-shield"></i> Privacy Settings</h4>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Profile Visibility</label>
+                                        <small>Control who can see your profile</small>
+                                    </div>
+                                    <select class="form-control" id="profileVisibility" onchange="updatePrivacySetting('profileVisibility', this.value)">
+                                        <option value="public" ${user.privacy?.profileVisibility === 'public' || !user.privacy?.profileVisibility ? 'selected' : ''}>Public</option>
+                                        <option value="registered" ${user.privacy?.profileVisibility === 'registered' ? 'selected' : ''}>Registered Users Only</option>
+                                        <option value="connections" ${user.privacy?.profileVisibility === 'connections' ? 'selected' : ''}>My Connections Only</option>
+                                        <option value="private" ${user.privacy?.profileVisibility === 'private' ? 'selected' : ''}>Private</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Contact Information</label>
+                                        <small>Show contact details on profile</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showContactInfo" ${user.privacy?.showContactInfo !== false ? 'checked' : ''} onchange="updatePrivacySetting('showContactInfo', this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Online Status</label>
+                                        <small>Show when you're online</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="showOnlineStatus" ${user.privacy?.showOnlineStatus !== false ? 'checked' : ''} onchange="updatePrivacySetting('showOnlineStatus', this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Search Engine Indexing</label>
+                                        <small>Allow search engines to index your profile</small>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="searchEngineIndexing" ${user.privacy?.searchEngineIndexing ? 'checked' : ''} onchange="updatePrivacySetting('searchEngineIndexing', this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Appearance & Language -->
+                            <div class="settings-group">
+                                <h4><i class="fas fa-palette"></i> Appearance & Language</h4>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <label>Theme</label>
+                                        <small>Choose your preferred theme</small>
+                                    </div>
+                                    <select class="form-control" id="themePreference" onchange="changeTheme(this.value)">
+                                        <option value="default">Default (Orange)</option>
+                                        <option value="blue">Blue</option>
+                                        <option value="purple">Purple</option>
+                                        <option value="green">Green</option>
+                                        <option value="dark">Dark Mode</option>
+                                    </select>
+                                </div>
+                                <div class="setting-item">
+                              
