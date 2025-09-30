@@ -597,8 +597,8 @@
         /* Service Cards */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
         }
 
         .service-card {
@@ -818,7 +818,7 @@
             }
             
             .services-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
 
@@ -2539,8 +2539,7 @@
                     id: 1, 
                     name: 'Professional Plumbing', 
                     category: 'Home Maintenance', 
-                    price: 'R150/hour', 
-                    rating: 4.8, 
+                    price: 'KSh 2,250/hour', 
                     provider: 'AquaFix Experts',
                     demo: 'Watch our certified plumbers handle pipe repairs, leak fixes, and installations with professional tools and techniques.',
                     image: 'wrench',
@@ -2551,8 +2550,7 @@
                     id: 2, 
                     name: 'Electrical Services', 
                     category: 'Home Maintenance', 
-                    price: 'R200/hour', 
-                    rating: 4.9, 
+                    price: 'KSh 3,000/hour', 
                     provider: 'PowerPro Electricians',
                     demo: 'See our licensed electricians safely install fixtures, repair wiring, and upgrade electrical systems.',
                     image: 'bolt',
@@ -2563,8 +2561,7 @@
                     id: 3, 
                     name: 'Premium Car Wash', 
                     category: 'Automotive Care', 
-                    price: 'R280', 
-                    rating: 4.6, 
+                    price: 'KSh 4,200', 
                     provider: 'Shine Auto Detailing',
                     demo: 'Experience our complete car detailing process including exterior wash, interior cleaning, and protective coating.',
                     image: 'car',
@@ -2575,8 +2572,7 @@
                     id: 4, 
                     name: 'Hair & Beauty Styling', 
                     category: 'Beauty & Wellness', 
-                    price: 'R250', 
-                    rating: 4.7, 
+                    price: 'KSh 3,750', 
                     provider: 'Glamour Studio',
                     demo: 'Discover the latest hair trends, cutting techniques, and styling methods from our professional stylists.',
                     image: 'cut',
@@ -2587,8 +2583,7 @@
                     id: 5, 
                     name: 'Academic Tutoring', 
                     category: 'Education', 
-                    price: 'R120/hour', 
-                    rating: 4.9, 
+                    price: 'KSh 1,800/hour', 
                     provider: 'EduMaster Tutors',
                     demo: 'Interactive learning sessions covering mathematics, science, and language arts with proven teaching methods.',
                     image: 'graduation-cap',
@@ -2599,8 +2594,7 @@
                     id: 6, 
                     name: 'Deep House Cleaning', 
                     category: 'Home Services', 
-                    price: 'R180/hour', 
-                    rating: 4.5, 
+                    price: 'KSh 2,700/hour', 
                     provider: 'SparkleClean Pro',
                     demo: 'Comprehensive home cleaning including kitchen deep clean, bathroom sanitization, and living area organization.',
                     image: 'home',
@@ -2626,7 +2620,7 @@
                 <!-- Featured Service Demos -->
                 <div class="content-section">
                     <div class="section-header">
-                        <h3><i class="fas fa-play-circle"></i> Featured Service Demos</h3>
+                        <h3><i class="fas fa-star"></i> Popular Services</h3>
                         <span style="color: var(--primary); font-size: 0.9rem;">Discover what our service providers can do for you</span>
                     </div>
                     <div class="section-content">
@@ -2659,11 +2653,7 @@
                                             <p style="color: var(--text); font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">${service.demo}</p>
                                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                                 <span style="font-weight: 600; color: var(--primary); font-size: 1.1rem;">${service.price}</span>
-                                                <div style="display: flex; align-items: center; gap: 5px;">
-                                                    <span style="color: #FFD166;">⭐</span>
-                                                    <span style="font-weight: 600;">${service.rating}</span>
-                                                    <span style="font-size: 0.8rem; opacity: 0.7;">(${service.reviews} reviews)</span>
-                                                </div>
+                                                <span style="font-size: 0.8rem; opacity: 0.7;">(${service.reviews} reviews)</span>
                                             </div>
                                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                                                 <span style="font-size: 0.9rem; color: var(--text);"><strong>Provider:</strong> ${service.provider}</span>
