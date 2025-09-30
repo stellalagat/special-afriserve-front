@@ -2329,14 +2329,14 @@
                 });
             });
 
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('nav a').forEach(anchor => {
+            // Smooth scrolling for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    if (targetId.startsWith('#')) {
+                    if (targetId.startsWith('#') && targetId.length > 1) {
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
+                            e.preventDefault();
                             targetElement.scrollIntoView({
                                 behavior: 'smooth',
                                 block: 'start'
