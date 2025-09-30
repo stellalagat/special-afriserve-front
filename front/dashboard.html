@@ -1226,6 +1226,157 @@
             opacity: 0.6;
         }
 
+        /* Profile */
+        .profile-info {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* Profile Styles */
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius);
+            color: white;
+        }
+
+        .profile-avatar {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .user-avatar-large {
+            width: 120px;
+            height: 120px;
+            font-size: 3rem;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .avatar-upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 3px solid white;
+        }
+
+        .avatar-upload-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .profile-summary h2 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+
+        .profile-role {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin: 0 0 5px 0;
+        }
+
+        .profile-id {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin: 0 0 15px 0;
+        }
+
+        .profile-status {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-badge.active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+        }
+
+        .status-badge.inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        .verified-badge {
+            padding: 5px 12px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .profile-section {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .profile-section h4 {
+            margin: 0 0 25px 0;
+            color: var(--dark);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
         /* Settings Styles */
         .settings-container {
             max-width: 1000px;
@@ -1378,6 +1529,16 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
             .setting-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -2720,6 +2881,8 @@
                 </div>
             `;
         }
+
+
 
         // Load Settings Section
         function loadSettingsSection() {
